@@ -8,35 +8,40 @@ app = Flask(__name__)
 
 client = MongoClient('localhost', 27017) 
 db = client.jungle
-
 app.config['JWT_SECRET_KEY'] = 'secret-key'
 
 jwt = JWTManager(app)
 
 
+   
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST','GET'])
 def login():
+    
     id = request.form['id']
     password = request.form['password']
-
-    user = db.jranking.users.find_one({}, {'id' : id,'password' : password})
+    user = db.users.find_one({}, {'id' : id,'password' : password})
     
     if user is None :
-        return jsonify({'result': 'false', "msg": "Bad username or password"}), 401
+        return jsonify({'result': 'false'}), 401
         
     # DB에 access_token, refresh token 생성하기
     access_token = create_access_token(identity=id)
     refresh_token = create_refresh_token(identity=id)
     
     # DB에 refresh token 저장하기
-    db.jranking.users.update_one({'id' : id},{'$set': {'token': refresh_token}})
-    
-    return jsonify({'result': 'success', 'access_token': access_token, 'refresh_token':refresh_token}), 200
+    db.users.update_one({'id' : id},{'$set': {'token': refresh_token}})
+    return render_template("menu.html", access_token = access_token, refresh_token = refresh_token)
+   # return jsonify({'result': 'success', 'access_token': access_token, 'refresh_token':refresh_token}), 200
 
+
+if __name__ == '__main__':  
+   app.run('0.0.0.0',port=5001,debug=True)
+   
+   
 # @app.route('/refresh', methods=['GET'])
 # @jwt_refresh_token_required
 # def refresh():
