@@ -6,7 +6,7 @@ import requests
 from datetime import date
 
 client = MongoClient('localhost', 27017) 
-db = client.jungle
+db = client.jranking
 
 cursor_all = db.users.find({})
 all_data = []
