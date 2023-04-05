@@ -133,6 +133,8 @@ def menu():
 def rank():
     token = request.cookies.get('access_token')
     if token is not None :
+        # 전체 랭킹 탑 5넘겨주기. 
+        
         return render_template('rank.html')
     else :
         flash("로그인 정보가 없습니다.")

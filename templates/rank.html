@@ -27,7 +27,7 @@
         </style>
 </head>
   <body>
-    <form id="logout" action="http://localhost:5000/logout" method="POST">
+    <form id="logout" action="/logout" method="POST">
     <div style="padding-left: 90%; margin: 30px;">
     <button class="button is-link is-outlined">로그아웃</button>
   </form>
@@ -37,7 +37,7 @@
   <strong style="font-size: 30pt;">순위</strong>
 </div>
 <div class="ranking">
-  <form style= 'width: 100px; float: left;'id="rank" action="http://localhost:5000/rank" method="POST" ><button class="button is-outlined">전체순위</button></form>
+  <form style= 'width: 100px; float: left;'id="rank" action="rankall" method="POST" ><button class="button is-outlined">전체순위</button></form>
   <form style= 'width: 100px; float: left;'id="red" action="http://localhost:5000/red" method="POST"><button class="button is-danger is-outlined">RED</button></form>
   <form style= 'width: 100px; float: left;'id="green" action="http://localhost:5000/green" method="POST"><button class="button is-success is-outlined">GREEN</button></form>
   <form style= 'width: 100px; float: left;'id="blue" action="http://localhost:5000/blue" method="POST"><button class="button is-info is-outlined">BLUE</button></form>
