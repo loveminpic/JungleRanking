@@ -17,19 +17,14 @@ def mypage():
     # DB에서 refresh token 가지고 user id 정보 불러오기
     # 해당 id를 가지고 저장된 모든 데이터를 list로 불러오기
     # 날짜 시작시간 종료시간 데이터 넘겨주기
-    # db.times.insert_one({'id':'test@gmail.com', 'date': '2023-08-20', 'start':'15:02:33', 'end':'19:02:33'})
+    
     token = request.cookies.get('refresh_token')
-    print(token)
     my_data = db.users.find_one({'token' : token},{'_id' : False})
-    print(my_data)
     my_id = my_data['id']
-    print(my_id)
     cursor = db.times.find({'id': my_id},{'_id':False})
     results = []
     for document in cursor:
         results.append(document)
-    # my_data_json = dumps(dict(cousor))
-    print(results[0])
     return render_template('mypage.html', mydata = results)
     
     # 2. 모든 정보 불러와서 평균내기 
