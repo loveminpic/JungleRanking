@@ -24,7 +24,7 @@ def rank():
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
 
-@rank_bp.route('/rank', methods=['POST']) # 'GET'
+@rank_bp.route('/red', methods=['POST']) # 'GET'
 def red():
     token = request.cookies.get('refresh_token')
     if token is not None :
@@ -38,7 +38,7 @@ def red():
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
 
-@rank_bp.route('/rank', methods=['POST']) # 'GET'
+@rank_bp.route('/blue', methods=['POST']) # 'GET'
 def blue():
     token = request.cookies.get('refresh_token')
     if token is not None :
@@ -52,7 +52,7 @@ def blue():
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
 
-@rank_bp.route('/rank', methods=['POST']) # 'GET'
+@rank_bp.route('/green', methods=['POST']) # 'GET'
 def green():
     token = request.cookies.get('refresh_token')
     if token is not None :

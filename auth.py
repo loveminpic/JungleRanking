@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 auth_bp = Blueprint('auth', __name__)
 
 client = MongoClient('localhost', 27017) 
-db = client.jranking
+db = client.jungle
     
 # 로그인 기능 구현
 @auth_bp.route('/login', methods=['POST'])
@@ -39,7 +39,7 @@ def logout():
     response = make_response(render_template('index.html'))
     response.delete_cookie('access_token')
     response.delete_cookie('refresh_token')
-    
+    return response
 
 @auth_bp.route('/signupbutton', methods=['POST'])
 def signupbutton():
@@ -57,6 +57,11 @@ def postUser():
         # 이름 입력 확인
         if name == '':
             flash("이름을 입력해주세요!")
+            return render_template('signup.html')
+        
+        # id 입력 확인
+        if id == '':
+            flash("ID를 입력해주세요!")
             return render_template('signup.html')
         
         # id 중복 확인
