@@ -13,7 +13,7 @@
         <style>
           
           .table{
-            margin: 100px 100px 0px 400px;
+            margin: 100px auto;
             width: 800px;
             font-size: 13pt;
           }
@@ -21,26 +21,28 @@
          text-align: center;
           }
           .ranking{
-          padding-left: 570px;
+          margin-left: 40%;
 
           }
         </style>
 </head>
   <body>
-    <form id="logout" action="/logout" method="POST">
-    <div style="padding-left: 90%; margin: 30px;">
+    <form id="logout" action="/info" method="POST"></form>
+    <div style="padding-left: 80%; margin: 30px;">
+      <button style='width: 100px; float: left; margin-right: 10px;' class="button is-link is-outlined" >내 정보</button>
+      </div>
+      <form id="logout" action="/logout" method="POST">
     <button class="button is-link is-outlined">로그아웃</button>
   </form>
-  </div>
   <div class="wrap">
     <div style="margin: 30px;">
   <strong style="font-size: 30pt;">순위</strong>
 </div>
 <div class="ranking">
-  <form style= 'width: 100px; float: left;'id="rank" action="rankall" method="POST" ><button class="button is-outlined">전체순위</button></form>
-  <form style= 'width: 100px; float: left;'id="red" action="http://localhost:5000/red" method="POST"><button class="button is-danger is-outlined">RED</button></form>
-  <form style= 'width: 100px; float: left;'id="green" action="http://localhost:5000/green" method="POST"><button class="button is-success is-outlined">GREEN</button></form>
-  <form style= 'width: 100px; float: left;'id="blue" action="http://localhost:5000/blue" method="POST"><button class="button is-info is-outlined">BLUE</button></form>
+  <form style= 'width: 100px; float: left;'id="rank" action="/rank" method="GET" ><button class="button is-outlined">전체순위</button></form>
+  <form style= 'width: 100px; float: left;'id="red" action="/rank/red" method="GET"><button class="button is-danger is-outlined">RED</button></form>
+  <form style= 'width: 100px; float: left;'id="green" action="/rank/green" method="GET"><button class="button is-success is-outlined">GREEN</button></form>
+  <form style= 'width: 100px; float: left;'id="blue" action="/rank/blue" method="GET"><button class="button is-info is-outlined">BLUE</button></form>
 </div>
 </div>
     <table class="table">
@@ -53,36 +55,20 @@
       </thead>
       <tfoot>
         <tr>
-          <th>(내순위)</th>
-          <th>(내이름)</th>
-          <th>(내공부시간)</th>
+       
+          <th>{{ rank }}</th>
+          <th>{{ name }}</th>
+          <th>{{ total }}</th>
+       
         </tr>
       </tfoot>
       <tbody>
+        {% for i in range(data| length) %}
         <tr>
           <th>1</th>
-          <td>이름</td>
-          <td>00:00</td>
+          <td>{{ data[i]['name'] }}</td>
+          <td>{{ data[i]['total'] }}</td>
         </tr>
-        <tr>
-          <th>2</th>
-          <td>이름</td>
-          <td>00:00</td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>이름</td>
-          <td>00:00</td>
-        </tr>
-        <tr>
-          <th>4</th>
-          <td>이름</td>
-          <td>00:00</td>
-        </tr>
-        <tr>
-          <th>5</th>
-          <td>이름</td>
-          <td>00:00</td>
-        </tr>
+        
   </body>
 </html>
