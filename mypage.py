@@ -19,21 +19,24 @@ def mypage():
     # 날짜 시작시간 종료시간 데이터 넘겨주기
     
     token = request.cookies.get('refresh_token')
-    my_data = db.users.find_one({'token' : token},{'_id' : False})
-    my_id = my_data['id']
-    cursor = db.times.find({'id': my_id},{'_id':False})
-    results = []
+    user = db.users.find_one({'token' : token},{'_id' : False})
+    user_id = user['id']
+    cursor = db.times.find({'id': user_id},{'_id':False})
+    my_data = []
     for document in cursor:
-        results.append(document)
-    return render_template('mypage.html', mydata = results)
+        my_data.append(document)
     
     # 2. 모든 정보 불러와서 평균내기 
     # 2-1. 1위 시간에서 내시간 빼서 보여주기 
-    all_data = list(db.users.find({}))
-    all_data.sort(key=lambda x: x.get('total'),reverse=True)
-    my_data_all = db.users.find_one({'id' : my_data_id_only['id']})
-    number_one = all_data[0]['total'] - my_data_all['total']
+    cursor_all = db.users.find({})
+    all_data = []
+    for document in cursor_all:
+        all_data.append(document)
     
+    all_data.sort(key=lambda x: x.get('total'),reverse=True)
+    number_one = all_data[0]['total'] - user['total']
+    return render_template('mypage.html', mydata = my_data, number_one= number_one)
+
     # 2-2 나의 일일 평균 공부 시간 보여주기
     # 해당 id를 가지고 저장된 모든 데이터를 list로 불러와서,
     # 날짜별로 join 하고 
