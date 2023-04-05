@@ -8,7 +8,7 @@ from datetime import datetime
 times_bp = Blueprint('times', __name__)
 
 client = MongoClient('localhost', 27017) 
-db = client.jranking
+db = client.jungle
 
 @times_bp.route('/time/calculate', methods=['POST', 'GET'])
 def timeCalculate():
