@@ -23,6 +23,34 @@ def mypage():
     user_id = user['id']
     total = user['total']
     cursor = db.times.find({'id': user_id},{'_id':False})
+    
+    # 개인 일일 공부시간 평균
+    timelist = list(db.times.find({'id': user_id},{'_id':False}))
+    temp = []
+    cnt = 0
+    for i in timelist:
+        if i['date'] not in temp:
+            cnt += 1
+            temp.append(i['date'])
+    peravg = total // cnt
+        
+    # 전체 일일 공부시간 평균
+    users = list(db.users.find({},{'_id':False}))
+    tempavg = 0
+    for i in users:
+        temp_id = i['id']
+        temptotal = i['total']
+        times = list(db.times.find({'id': temp_id},{'_id':False}))
+        temp = []
+        cnt = 0
+        for j in times:
+            if j['date'] not in temp:
+                cnt += 1
+                temp.append(j['date'])
+        tempavg += temptotal // cnt
+    allavg = tempavg // len(users)
+        
+        
     my_data = []
     for document in cursor:
         my_data.append(document)
@@ -36,7 +64,11 @@ def mypage():
     
     all_data.sort(key=lambda x: x.get('total'),reverse=True)
     number_one = all_data[0]['total'] - user['total']
-    return render_template('mypage.html', mydata = my_data, number_one= number_one, total = total)
+    
+    
+    
+    
+    return render_template('mypage.html', mydata = my_data, number_one= number_one, total = total, peravg = peravg, allavg = allavg)
 
     # 2-2 나의 일일 평균 공부 시간 보여주기
     # 해당 id를 가지고 저장된 모든 데이터를 list로 불러와서,
