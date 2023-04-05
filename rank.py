@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 
 rank_bp = Blueprint('rank', __name__)
 
-client = MongoClient('localhost', 27017) 
+client = MongoClient('mongodb://test:test@localhost',27017)
 db = client.jranking
 
 @rank_bp.route('/rank', methods=['POST', 'GET'])

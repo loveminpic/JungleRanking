@@ -2,7 +2,7 @@ from slack_sdk.errors import SlackApiError
 from pymongo import MongoClient
 import requests
 from datetime import date
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost',27017)
 
 db = client.jranking
 cursor_all = db.users.find({})

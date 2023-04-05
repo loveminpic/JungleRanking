@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 
 mypage_bp = Blueprint('mypage', __name__)
 
-client = MongoClient('localhost', 27017) 
+client = MongoClient('mongodb://test:test@localhost',27017)
 db = client.jranking
 
 @mypage_bp.route("/mypage", methods=['GET'])

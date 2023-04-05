@@ -104,18 +104,12 @@
       <div class="card">
       <table class="table" style="background-color: #6693ee;  line-height: 50px; ">
         <tr >
-          <th style="color: white">1등이 되려면 남은 시간 : 
-            {% if number_one == 0 %}
-            1등이에요!
-            {% else %}
-            {{ number_one }}
-            {% endif %}
-          </th>
+          <th style="color: white">1등이 되려면 남은 시간 : {{ number_one }}분</th>
       </tr>
       <tr>
-        <th style="color: white">나의 일일 평균 공부시간 : {{ average }}</th>
+        <th style="color: white">나의 일일 평균 공부시간 : {{ average }}분</th>
       </tr>
-        <th style="color: white">전체 일일 평균 공부시간 : {{ total_average }}</th>
+        <th style="color: white">전체 일일 평균 공부시간 : {{ total_average }}분</th>
       </tr>
       </table>
     </div>
