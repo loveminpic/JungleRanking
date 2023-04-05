@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint, request, jsonify
 from pymongo import MongoClient
 import json
@@ -16,12 +17,20 @@ def mypage():
     # DB에서 refresh token 가지고 user id 정보 불러오기
     # 해당 id를 가지고 저장된 모든 데이터를 list로 불러오기
     # 날짜 시작시간 종료시간 데이터 넘겨주기
-    token = request.cookies.get('refresh_token')
-    my_data = db.users.find_one({'token' : token}, {'_id':False})
-    my_id = my_data['id']
-    my_data_all = list(db.times.find({'id': my_id},{'_id':False}))
-    my_data_json = json.dumps(my_data)
-    return render_template('mypage.html', mydata = my_data_json)
+    
+    # db.times.insert_one({'id':'test@gmail.com', 'date': datetime.datetime.now(), 'start':'', 'end':''})
+    
+    # token = request.cookies.get('refresh_token')
+    # my_data = db.users.find_one({'token' : token}, {'_id':False})
+    # my_id = my_data['id']
+    # my_data_all = list(db.times.find({'id': my_id},{'_id':False}))
+    # my_data_json = json.dumps(my_data)
+    mydata = {
+        'date' : '1994-08-28',
+        'start' : "12",
+        'end' : "22"
+    }
+    return render_template('mypage.html', mydata = mydata)
     
     # 2. 모든 정보 불러와서 평균내기 
     # 2-1. 1위 시간에서 내시간 빼서 보여주기 
