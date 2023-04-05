@@ -83,7 +83,7 @@ def login():
         
         return response
 
-@app.route("/menu", methods=['GET'])
+@app.route("/study", methods=['POST'])
 def menu():
     token = request.cookies.get('access_token')
     if token is not None :
@@ -92,19 +92,24 @@ def menu():
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
 
-# @app.route('/refresh', methods=['POST'])
-# @jwt_required()
-# def refresh():
-#     current_user = get_jwt_identity()
-#     ret = {
-#         'access_token': create_access_token(identity=current_user)
-#     }
-#     return jsonify(ret), 200
-
-@app.route('/logout')
+@app.route("/rank", methods=['POST'])
+def rank():
+    token = request.cookies.get('access_token')
+    if token is not None :
+        return render_template('rank.html')
+    else :
+        flash("로그인 정보가 없습니다.")
+        return render_template('index.html')
+    
+@app.route("/logout", methods=['POST'])
 def logout():
-    resp = make_response(redirect('/login'))
-    resp.delete_cookie('access_token')
+    token = request.cookies.get('access_token')
+    response = make_response(render_template('index.html'))
+    response.delete_cookie('access_token')
+    return response
+    
+# 만들어야할 것 
+# access 토큰이 만료되었을때, 재발급 받는 방법. 
 
 if __name__ == '__main__':
 #    app.secret_key = "green-eight"
