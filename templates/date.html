@@ -49,12 +49,13 @@ h5{
     <div style="padding-left: 80%; margin: 30px;">
       <button style='width: 100px; float: left; margin-right: 10px;' class="button is-link is-outlined" >내 정보</button>
       </div>
-      <form id="logout" action="/logout" method="POST"></form>
+      <form id="logout" action="/logout" method="POST">
     <button class="button is-link is-outlined">로그아웃</button>
   </form>
 <div class="edge">
 <div class="wrap">
-      <div class="tile is-parent" style="float: left"  >
+  <p style="text-align: center;">2023-04-05</p>
+      <div class="tile is-parent" style="float: left">
         <article class="tile is-child notification is-info">
           <p class="time">시작시간</p>
           <p class="timer">{{ starttime }}</p>
@@ -71,8 +72,7 @@ h5{
     <div class="outline">
       <input class="input" name="starttime" type="text" value="{{ starttime }}" style="display:none">
     <button class="button is-danger is-outlined" >공부 그만하기</button>
-  </form>
-  <form id="rank" action="/rank" method="POST">
+  <form id="rank" action="/rankbutton" method="POST">
   <div>
     <form id="logout" action="/rank" method="POST">
       <button type="submit" class="button is-warning is-light" style="margin-top: 150px;">순위 확인하기</button>

@@ -13,7 +13,7 @@
         <style>
           
           .table{
-            margin: 100px 100px 0px 400px;
+            margin: 100px auto;
             width: 800px;
             font-size: 13pt;
           }
@@ -21,7 +21,7 @@
          text-align: center;
           }
           .ranking{
-          padding-left: 570px;
+          margin-left: 40%;
 
           }
         </style>
@@ -31,7 +31,7 @@
     <div style="padding-left: 80%; margin: 30px;">
       <button style='width: 100px; float: left; margin-right: 10px;' class="button is-link is-outlined" >내 정보</button>
       </div>
-      <form id="logout" action="/logout" method="POST"></form>
+      <form id="logout" action="/logout" method="POST">
     <button class="button is-link is-outlined">로그아웃</button>
   </form>
   <div class="wrap">
@@ -39,10 +39,10 @@
   <strong style="font-size: 30pt;">순위</strong>
 </div>
 <div class="ranking">
-  <form style= 'width: 100px; float: left;'id="rank" action="/rank" method="POST" ><button class="button is-outlined">전체순위</button></form>
-  <form style= 'width: 100px; float: left;'id="red" action="/red" method="POST"><button class="button is-danger is-outlined">RED</button></form>
-  <form style= 'width: 100px; float: left;'id="green" action="/green" method="POST"><button class="button is-success is-outlined">GREEN</button></form>
-  <form style= 'width: 100px; float: left;'id="blue" action="/blue" method="POST"><button class="button is-info is-outlined">BLUE</button></form>
+  <form style= 'width: 100px; float: left;'id="rank" action="/rank" method="GET" ><button class="button is-outlined">전체순위</button></form>
+  <form style= 'width: 100px; float: left;'id="red" action="/rank/red" method="GET"><button class="button is-danger is-outlined">RED</button></form>
+  <form style= 'width: 100px; float: left;'id="green" action="/rank/green" method="GET"><button class="button is-success is-outlined">GREEN</button></form>
+  <form style= 'width: 100px; float: left;'id="blue" action="/rank/blue" method="GET"><button class="button is-info is-outlined">BLUE</button></form>
 </div>
 </div>
     <table class="table">
@@ -55,41 +55,21 @@
       </thead>
       <tfoot>
         <tr>
-          {% if user %}
-          <th>{{ user['1'] }}</th>
-          <th>{{ user['name'] }}</th>
-          <th>{{ user['total'] }}</th>
-          {% endif %}
+       
+          <th>{{ rank }}</th>
+          <th>{{ name }}</th>
+          <th>{{ total }}</th>
+       
         </tr>
       </tfoot>
       <tbody>
+        {% for i in range(data| length) %}
         <tr>
           {% for name, total in rank %}
           <th>1</th>
-          <td>{{ name }}</td>
-          <td>{{ total }}</td>
+          <td>{{ data[i]['name'] }}</td>
+          <td>{{ data[i]['total'] }}</td>
         </tr>
-        <tr>
-          <th>2</th>
-          <td>{{ name }}</td>
-          <td>{{ total }}</td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>{{ name }}</td>
-          <td>{{ total }}</td>
-        </tr>
-        <tr>
-          <th>4</th>
-          <td>{{ name }}</td>
-          <td>{{ total }}</td>
-        </tr>
-        <tr>
-          <th>5</th>
-          <td>{{ name }}</td>
-          <td>{{ total }}</td>
-          {% endfor %}
-        </tr>
-
+        
   </body>
 </html>
