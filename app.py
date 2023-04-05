@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from datetime import timedelta
 from flask_cors import CORS
 import hashlib
+import json
 from flask import Flask, render_template, jsonify, url_for,request, make_response, flash, redirect
 from flask_jwt_extended import (
     JWTManager, create_access_token,  
@@ -23,7 +24,7 @@ app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 # app.config["JWT_COOKIE_SECURE"] = True
 # app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 # app.config["JWT_SECRET_KEY"] = "green-eight" 
-# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=24)
 # app.config["JWT_CSRF_IN_COOKIES"] = True
 # app.config['SESSION_TYPE'] = 'filesystem'
 
@@ -64,22 +65,12 @@ def login():
         access_token = create_access_token(identity=id)
         refresh_token = create_refresh_token(identity=id)
 
-        # print(access_token)
-        # print("--------------")
-        # print(refresh_token)
-        # # 쿠키에 access token 저장하기
-        # #
-        # result = make_response({'login': True})
-        # set_access_cookies(result, access_token)
-        # set_refresh_cookies(result, refresh_token)
-
         # DB에 refresh token 저장하기
         db.users.update_one({'id' : id},{'$set': {'token': refresh_token}})
-
         response = make_response(render_template('menu.html'))
-        # response.set_cookie(key="access_token", value=access_token, httponly=True)
         response.set_cookie('access_token', value=access_token)
-        # response.localStorage.setItem("access_token", access_token)
+        response.set_cookie('refresh_token', value=refresh_token)
+        
         return response
     
 @app.route('/signupbutton', methods=['POST'])
@@ -113,12 +104,11 @@ def postUser():
             return render_template('signup.html')
         
         # db에 저장
-        db.users.insert_one({'id':id, 'pw':password, 'name':name, 'classroom':classroom, 'total':0, 'token':''})
+        db.users.insert_one({'id':id, 'password':password, 'name':name, 'classroom':classroom, 'total':0, 'token':''})
         flash("가입이 완료되었습니다!")
         return render_template('index.html')
     else:
         return render_template('signup.html')
-
 
 @app.route("/study", methods=['POST'])
 def menu():
@@ -133,7 +123,9 @@ def menu():
 def rank():
     token = request.cookies.get('access_token')
     if token is not None :
-        # 전체 랭킹 탑 5넘겨주기. 
+        # 디비에서 데이터 불러옴
+        # 리스트 순서 정렬
+        # 탑 5를 json 으로 넘겨줌. 
         
         return render_template('rank.html')
     else :
@@ -145,8 +137,41 @@ def logout():
     token = request.cookies.get('access_token')
     response = make_response(render_template('index.html'))
     response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
     return response
+
+@app.route("/mypage", methods=['POST'])
+def mypage():
     
+    # 1. 내 정보 보여주는 곳
+    # DB에서 refresh token 가지고 user id 정보 불러오기
+    # 해당 id를 가지고 저장된 모든 데이터를 list로 불러오기
+    # 날짜 시작시간 종료시간 데이터 넘겨주기
+    token = request.cookies.get('refresh_token')
+    my_data_id_only = db.users.find_one({'token' : token}, {'token' : False}, {'_id':False}, {'password':False},{'name':False}, {'classroom':False}, {'total':False})
+    my_data = list(db.times.find({'id': my_data_id_only['id']}))
+    my_data_json = json.dumps(my_data)
+    
+    
+    # 2. 모든 정보 불러와서 평균내기 
+    # 2-1. 1위 시간에서 내시간 빼서 보여주기 
+    all_data = list(db.users.find({}))
+    all_data.sort(key=lambda x: x.get('total'),reverse=True)
+    my_data_all = db.users.find_one({'id' : my_data_id_only['id']})
+    number_one = all_data[0]['total'] - my_data_all['total']
+    
+    # 2-2 나의 일일 평균 공부 시간 보여주기
+    # 해당 id를 가지고 저장된 모든 데이터를 list로 불러와서,
+    # 날짜별로 join 하고 
+    # 총 날짜별 length 체크해서 
+    # 총 합산 시간 / length 
+    
+    # 2-3 전체인원 일일 평균 공부시간 보여주기
+    # 모든 데이터에서 날짜별로 join 
+    # 모든 데이터의 총 합산 시간 / 날짜 length
+    return render_template('home.html', mydata = my_data_json, number_one = number_one )
+
+
 # 만들어야할 것 
 # access 토큰이 만료되었을때, 재발급 받는 방법. 
 
