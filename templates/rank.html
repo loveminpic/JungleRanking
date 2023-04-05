@@ -56,14 +56,13 @@
       <tfoot>
         <tr>
           {% if user %}
-          <th>{{ rank }}</th>
-          <th>{{ name }}</th>
-          <th>{{ total }}</th>
+          <th>{{ user['1'] }}</th>
+          <th>{{ user['name'] }}</th>
+          <th>{{ user['total'] }}</th>
           {% endif %}
         </tr>
       </tfoot>
       <tbody>
-      
         <tr>
           {% for name, total in rank %}
           <th>1</th>
@@ -91,5 +90,6 @@
           <td>{{ total }}</td>
           {% endfor %}
         </tr>
+
   </body>
 </html>
