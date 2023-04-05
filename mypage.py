@@ -35,6 +35,7 @@ def mypage():
     # 날짜별로 join 하고 
     # 총 날짜별 length 체크해서 
     # 총 합산 시간 / length 
+    my_data
     
     # 2-3 전체인원 일일 평균 공부시간 보여주기
     # 모든 데이터에서 날짜별로 join 
