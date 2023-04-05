@@ -56,19 +56,21 @@ h5{
 <div class="wrap">
       <div class="tile is-parent" style="float: left"  >
         <article class="tile is-child notification is-info">
-          <p class="time">시작시간</p>
-          <p class="timer">00:00</p>
+          <p class="time" id="starttime">시작시간</p>
+          <p class="timer">{{ starttime }}</p>
         </article>
       </div>
     <div class="tile is-parent" style="float: right">
       <article class="tile is-child notification is-info">
         <p class="time">종료시간</p>
-        <p class="timer">00:00</p>
+        <p class="timer">{{ endtime }}</p>
       </article>
     </div>
   </div>
+  <form id="rank" action="/time/calculate" method="GET">
     <div class="outline">
     <button class="button is-danger is-outlined" >공부 그만하기</button>
+  </form>
   <form id="rank" action="/rank" method="POST">
   <div>
     <button class="button is-warning is-light" style="margin-top: 150px;">순위 확인하기</button>
