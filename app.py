@@ -150,6 +150,45 @@ def rank():
     else :
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
+
+@app.route("/rank/red", methods=['GET'])
+def rank():
+    token = request.cookies.get('refresh_token')
+    if token is not None :
+        users = list(db.users.find({'classroom':'red'}).sort({'total': -1}))
+        user = list(db.users.find_one({'token':token}))
+        users = json.dumps(users)
+        user = json.dumps(user)
+        return render_template('rank.html', ranker = users, user = user)
+    else :
+        flash("로그인 정보가 없습니다.")
+        return render_template('index.html')
+    
+@app.route("/rank/blue", methods=['GET'])
+def rank():
+    token = request.cookies.get('refresh_token')
+    if token is not None :
+        users = list(db.users.find({'classroom':'blue'}).sort({'total': -1}))
+        user = list(db.users.find_one({'token':token}))
+        users = json.dumps(users)
+        user = json.dumps(user)
+        return render_template('rank.html', ranker = users, user = user)
+    else :
+        flash("로그인 정보가 없습니다.")
+        return render_template('index.html')
+
+@app.route("/rank/green", methods=['GET'])
+def rank():
+    token = request.cookies.get('refresh_token')
+    if token is not None :
+        users = list(db.users.find({'classroom':'green'}).sort({'total': -1}))
+        user = list(db.users.find_one({'token':token}))
+        users = json.dumps(users)
+        user = json.dumps(user)
+        return render_template('rank.html', ranker = users, user = user)
+    else :
+        flash("로그인 정보가 없습니다.")
+        return render_template('index.html')
     
 @app.route("/logout", methods=['POST'])
 def logout():
