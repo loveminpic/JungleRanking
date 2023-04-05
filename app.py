@@ -9,6 +9,10 @@ from flask_jwt_extended import (
     create_refresh_token, jwt_required, get_jwt_identity,
     set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 )
+import json
+from bs4 import BeautifulSoup
+import requests
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "green-eight"
@@ -103,6 +107,11 @@ def postUser():
             flash("8글자 이상의 비밀번호를 입력해주세요!")
             return render_template('signup.html')
         
+        # 반 선택 확인
+        if classroom == '---':
+            flash("반을 선택해주세요!")
+            return render_template('signup.html')
+        
         # db에 저장
         db.users.insert_one({'id':id, 'password':password, 'name':name, 'classroom':classroom, 'total':0, 'token':''})
         flash("가입이 완료되었습니다!")
@@ -123,11 +132,15 @@ def menu():
 def rank():
     token = request.cookies.get('access_token')
     if token is not None :
-        # 디비에서 데이터 불러옴
-        # 리스트 순서 정렬
-        # 탑 5를 json 으로 넘겨줌. 
-        
         return render_template('rank.html')
+        users = list(db.users.find({}).sort({'total': -1}))
+        user = list(db.users.find_one({'id':id}))
+        return render_template('rank.html', 
+                               r1name=users[0]['name'], r1total=users[0]['total'], 
+                               r2name=users[1]['name'], r2total=users[1]['total'], 
+                               r3name=users[2]['name'], r3total=users[2]['total'], 
+                               r4name=users[3]['name'], r4total=users[3]['total'], 
+                               r5name=users[4]['name'], r5total=users[4]['total'])
     else :
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
