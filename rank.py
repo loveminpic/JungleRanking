@@ -11,7 +11,7 @@ client = MongoClient('localhost', 27017)
 db = client.jungle
 
 
-@rank_bp.route("/rank", methods=['GET'])
+@rank_bp.route("/rank", methods=['POST'])
 def rank():
     token = request.cookies.get('refresh_token')
     if token is not None :
