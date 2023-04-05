@@ -115,7 +115,7 @@ def postUser():
         # db에 저장
         db.users.insert_one({'id':id, 'pw':password, 'name':name, 'classroom':classroom, 'total':0, 'token':''})
         flash("가입이 완료되었습니다!")
-        return render_template('signup.html')
+        return render_template('index.html')
     else:
         return render_template('signup.html')
 
