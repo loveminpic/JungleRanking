@@ -10,7 +10,7 @@ times_bp = Blueprint('times', __name__)
 client = MongoClient('localhost', 27017) 
 db = client.jranking
 
-@times_bp.route('/time/calculate', methods=['POST', 'GET'])
+@times_bp.route('/time', methods=['POST', 'GET'])
 def timeCalculate():
     temptime = '23:59:59'
     temptime = datetime.strptime(temptime, '%H:%M:%S')
