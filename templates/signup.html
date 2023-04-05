@@ -1,8 +1,8 @@
 <!Doctype html>
 <html lang="ko">
-
     <head>
         <meta charset="utf-8">
+        <title>JUNGLE RANKING</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
@@ -38,7 +38,6 @@
   display: none;
 }
 </style>
-
 {%with messages = get_flashed_messages()%}
 {%if messages %}
   <script type="text/javascript">
@@ -46,10 +45,9 @@
   </script>
   {%endif%}
 {%endwith%}
-
 </head>
 <body>
-    <form class="wrap" id="signup" action="http://localhost:5000/signup" method="POST">
+    <form class="wrap" id="signup" action="/signup" method="POST">
     <div class="field">
         <h1 class="title">회원가입</h1>
         <label class="label">이름</label>
@@ -58,14 +56,13 @@
       <div class="field">
         <label class="label">아이디</label>
         <div class="field is-grouped">
-          <input class="input" type="email" name="id">
-
+          <input class="input" name="id" type="text">
         </div>
       </div>
       <div class="field">
         <label class="label">비밀번호</label>
         <div class="control">
-          <input class="input" name="password" type="password">
+          <input class="input" name="password" type="text">
           <h5 style="font-size: 8pt;" id="alert">비밀번호는 8자리 이상 입력해주세요</h5>
         </div>
       </div>
@@ -82,16 +79,11 @@
           </div>
         </div>
     </div>
-      
       <div class="btn field is-grouped">
         <div class="control">
           <button type= 'submit' class="button is-link">가입</button>
         </div>
-        <div class="control">
-        </div>
       </div>
     </form>
-    <div>
-
 </body>
 </html>
