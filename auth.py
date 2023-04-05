@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 auth_bp = Blueprint('auth', __name__)
 
 client = MongoClient('localhost', 27017) 
-db = client.jungle
+db = client.jranking
     
 # 로그인 기능 구현
 @auth_bp.route('/login', methods=['POST'])

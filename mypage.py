@@ -9,7 +9,7 @@ from flask_jwt_extended import (
 mypage_bp = Blueprint('mypage', __name__)
 
 client = MongoClient('localhost', 27017) 
-db = client.jungle
+db = client.jranking
 
 @mypage_bp.route("/mypage", methods=['GET'])
 def mypage():
