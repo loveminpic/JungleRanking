@@ -112,6 +112,11 @@ def postUser():
             flash("8글자 이상의 비밀번호를 입력해주세요!")
             return render_template('signup.html')
         
+        # 반 선택 확인
+        if classroom == '---':
+            flash("반을 선택해주세요!")
+            return render_template('signup.html')
+        
         # db에 저장
         db.users.insert_one({'id':id, 'pw':password, 'name':name, 'classroom':classroom, 'total':0, 'token':''})
         flash("가입이 완료되었습니다!")
