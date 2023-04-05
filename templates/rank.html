@@ -57,19 +57,18 @@
         <tr>
        
           <th>{{ rank }}</th>
-          <th>{{ name }}</th>
-          <th>{{ total }}</th>
+          <th>{{ user['name'] }}</th>
+          <th>{{ user['total'] }}분</th>
        
         </tr>
       </tfoot>
       <tbody>
-        {% for i in range(data| length) %}
+        {% for i in range(ranker| length) %}
         <tr>
-          {% for name, total in rank %}
           <th>1</th>
-          <td>{{ data[i]['name'] }}</td>
-          <td>{{ data[i]['total'] }}</td>
+          <td>{{ ranker[i]['name'] }}</td>
+          <td>{{ ranker[i]['total'] }}분</td>
         </tr>
-        
+        {% endfor %}
   </body>
 </html>
