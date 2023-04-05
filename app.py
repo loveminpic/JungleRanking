@@ -8,6 +8,10 @@ from flask_jwt_extended import (
     create_refresh_token, jwt_required, get_jwt_identity,
     set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 )
+import json
+from bs4 import BeautifulSoup
+import requests
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "green-eight"
@@ -138,7 +142,14 @@ def menu():
 def rank():
     token = request.cookies.get('access_token')
     if token is not None :
-        return render_template('rank.html')
+        users = list(db.users.find({}).sort({'total': -1}))
+        user = list(db.users.find_one({'id':id}))
+        return render_template('rank.html', 
+                               r1name=users[0]['name'], r1total=users[0]['total'], 
+                               r2name=users[1]['name'], r2total=users[1]['total'], 
+                               r3name=users[2]['name'], r3total=users[2]['total'], 
+                               r4name=users[3]['name'], r4total=users[3]['total'], 
+                               r5name=users[4]['name'], r5total=users[4]['total'])
     else :
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
@@ -150,6 +161,37 @@ def logout():
     response.delete_cookie('access_token')
     return response
     
+# 시작버튼
+@app.route('/time', methods=['GET'])
+def timeStart():
+    # headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    # data = requests.get('http://localhost:5000/time',headers=headers)
+    # soup = BeautifulSoup(data.text, 'html.parser')
+    # starttime = soup.select('#time')
+    starttime = datetime.now()
+    starttime = starttime.replace(microsecond=0)
+    starttime = starttime.replace(second=0)
+    return render_template('date.html', starttime = starttime)
+
+# 시간 계산 및 DB 저장
+@app.route('/time/calculate', methods=['POST', 'GET'])
+def timeCalculate():
+    token = request.cookies.get('refresh_token')
+    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get('http://localhost:5000/time',headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+    starttime = soup.select('#time')
+    endtime = datetime.now()
+    endtime= endtime.replace(microsecond=0)
+    endtime= endtime.replace(second=0)
+    caltime = (endtime - starttime)
+    user = db.users.find_one({'token':token})
+    totaltime = user['time'] + ((caltime.seconds)//60)
+    id = user['id']
+    db.times.insert_one({'id':id, 'start':starttime, 'end':endtime})
+    db.users.update_one({'id':id},{'$set':{'total':totaltime}})
+    return render_template('date.html')
+
 # 만들어야할 것 
 # access 토큰이 만료되었을때, 재발급 받는 방법. 
 
