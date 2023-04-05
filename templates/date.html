@@ -54,6 +54,7 @@ h5{
   </form>
 <div class="edge">
 <div class="wrap">
+  <p style="text-align: center;">{{ date }}</p>
       <div class="tile is-parent" style="float: left"  >
         <article class="tile is-child notification is-info">
           <p class="time">시작시간</p>
@@ -70,6 +71,7 @@ h5{
   <form id="rank" action="/time/calculate" method="POST">
     <div class="outline">
       <input class="input" name="starttime" type="text" value="{{ starttime }}" style="display:none">
+      <input class="input" name="date" type="text" value="{{ date }}" style="display:none">
     <button class="button is-danger is-outlined" >공부 그만하기</button>
   </form>
   <form id="rank" action="/rank" method="POST">
