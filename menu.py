@@ -24,12 +24,12 @@ def rankmenu():
         flash("로그인 정보가 없습니다.")
         return render_template('index.html')
     
-@menu_bp.route("/infobutton", methods=['POST'])
-def mypagemenu():
-    token = request.cookies.get('access_token')
-    if token is not None :
-        return render_template('mypage.html')
-    else :
-        flash("로그인 정보가 없습니다.")
-        return render_template('index.html')
+# @menu_bp.route("/mypagebutton", methods=['POST'])
+# def mypagemenu():
+#     token = request.cookies.get('access_token')
+#     if token is not None :
+#         return render_template('mypage.html')
+#     else :
+#         flash("로그인 정보가 없습니다.")
+#         return render_template('index.html')
     
