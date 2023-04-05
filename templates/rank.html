@@ -66,7 +66,7 @@
       <tbody>
         {% for i in range(ranker| length) %}
         <tr>
-          <th>1</th>
+          <th>{{ i + 1 }}</th>
           <td>{{ ranker[i]['name'] }}</td>
           <td>{{ ranker[i]['total'] }}분</td>
         </tr>

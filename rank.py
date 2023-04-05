@@ -22,8 +22,12 @@ def rank():
             if user['id'] == i['id']:
                 break
         users_give = []
+        newcnt = 0
         for temp in users:
             users_give.append(temp)
+            newcnt += 1
+            if newcnt == 5:
+                break
         return render_template('rank.html', ranker = users_give, user = user, rank = cnt)
     else :
         flash("로그인 정보가 없습니다.")
@@ -42,8 +46,12 @@ def red():
             if user['id'] == i['id']:
                 break
         users_give = []
+        newcnt = 0
         for temp in users:
             users_give.append(temp)
+            newcnt += 1
+            if newcnt == 5:
+                break
         return render_template('rank.html', ranker = users_give, user = user, rank = cnt)
     else :
         flash("로그인 정보가 없습니다.")
@@ -62,8 +70,12 @@ def blue():
             if user['id'] == i['id']:
                 break
         users_give = []
+        newcnt = 0
         for temp in users:
             users_give.append(temp)
+            newcnt += 1
+            if newcnt == 5:
+                break
         return render_template('rank.html', ranker = users_give, user = user, rank = cnt)
     else :
         flash("로그인 정보가 없습니다.")
@@ -82,8 +94,12 @@ def green():
             if user['id'] == i['id']:
                 break
         users_give = []
+        newcnt = 0
         for temp in users:
             users_give.append(temp)
+            newcnt += 1
+            if newcnt == 5:
+                break
         return render_template('rank.html', ranker = users_give, user = user, rank = cnt)
     else :
         flash("로그인 정보가 없습니다.")
