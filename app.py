@@ -11,17 +11,20 @@ from flask_jwt_extended import (
 
 app = Flask(__name__)
 app.secret_key = "green-eight"
-CORS(app, supports_credentials=True)
+# CORS(app, supports_credentials=True)
 
 client = MongoClient('localhost', 27017) 
 db = client.jungle
 
+app.config["JWT_SECRET_KEY"] = "green-eight"
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+
 # app.config['BASE_URL'] = 'http://127.0.0.1:5000'
 # app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+# app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 # app.config["JWT_SECRET_KEY"] = "green-eight" 
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
-app.config["JWT_CSRF_IN_COOKIES"] = True
+# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+# app.config["JWT_CSRF_IN_COOKIES"] = True
 # app.config['SESSION_TYPE'] = 'filesystem'
 
 jwt = JWTManager(app)
@@ -76,6 +79,8 @@ def login():
         response = make_response(render_template('menu.html'))
         # response.set_cookie(key="access_token", value=access_token, httponly=True)
         response.set_cookie('access_token', value=access_token)
+        # response.localStorage.setItem("access_token", access_token)
+        
         return response
 
 @app.route("/menu", methods=['GET'])
