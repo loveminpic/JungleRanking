@@ -53,7 +53,7 @@ def mypage():
         if cnt != 0:
             tempavg += temptotal // cnt
         else:
-            peravg = 0
+            tempavg = 0
     if len(users) != 0:
         allavg = tempavg // len(users)
     else:
