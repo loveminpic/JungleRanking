@@ -52,8 +52,6 @@ def mypage():
                 temp.append(j['date'])
         if cnt != 0:
             tempavg += temptotal // cnt
-        else:
-            tempavg = 0
     if len(users) != 0:
         allavg = tempavg // len(users)
     else:
