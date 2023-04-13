@@ -4,23 +4,22 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from flask import Flask, render_template,request, make_response, flash, redirect
 from flask_jwt_extended import (
-    JWTManager, create_access_token, create_refresh_token)
+    JWTManager, create_access_token, create_refresh_token,jwt_required,get_jwt_identity)
 
 mypage_bp = Blueprint('mypage', __name__)
 
-client = MongoClient('mongodb://test:test@localhost',27017)
-db = client.jranking
+client = MongoClient('localhost',27017)
+db = client.jungle
 
 @mypage_bp.route("/mypage", methods=['GET'])
+@jwt_required()
 def mypage():
     # 1. 내 정보 보여주는 곳
     # DB에서 refresh token 가지고 user id 정보 불러오기
     # 해당 id를 가지고 저장된 모든 데이터를 list로 불러오기
     # 날짜 시작시간 종료시간 데이터 넘겨주기
-    
-    token = request.cookies.get('refresh_token')
-    user = db.users.find_one({'token' : token},{'_id' : False})
-    user_id = user['id']
+    user_id = get_jwt_identity()
+    user = db.users.find_one({'id' : user_id},{'_id' : False})
     total = user['total']
     cursor = db.times.find({'id': user_id}).sort('_id', -1)
     

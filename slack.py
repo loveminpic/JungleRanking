@@ -5,7 +5,7 @@ from datetime import date
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 import ssl
-# slack_bp = Blueprint('slack', __name__)
+
 client = MongoClient('localhost',27017)
 ssl._create_default_https_context = ssl._create_unverified_context
 app = App(token="TOKEN")

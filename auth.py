@@ -6,8 +6,8 @@ from flask_jwt_extended import (
 
 auth_bp = Blueprint('auth', __name__)
 
-client = MongoClient('mongodb://test:test@localhost',27017)
-db = client.jranking
+client = MongoClient('localhost',27017)
+db = client.jungle
     
 # 로그인 기능 구현
 @auth_bp.route('/login', methods=['POST'])
@@ -23,7 +23,6 @@ def login():
         # DB에 access_token, refresh token 생성하기
         access_token = create_access_token(identity=id)
         refresh_token = create_refresh_token(identity=id)
-
         # DB에 refresh token 저장하기
         db.users.update_one({'id' : id},{'$set': {'token': refresh_token}})
         response = make_response(render_template('menu.html'))
